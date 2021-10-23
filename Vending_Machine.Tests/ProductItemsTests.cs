@@ -9,27 +9,29 @@ namespace Vending_Machine.Tests
 {
     public class ProductItemsTests
     {
+        public ProductItemsTests()
+        {
+            ProductIdSequencer.Reset();
+        }
+
         private ProductItems _ob = new ProductItems();
         [Fact]
 
         public void SizeandClearTests()
         {
             
-            _ob.clear();
+            ProductItems.Clear();
             Assert.Equal(0, _ob.Size());
 
             for (int i = 0; i < 5; i++)
             {
-                Product testProduct =null;
-                testProduct.ProductName = "Test" + i;
-                testProduct.ProductManufacturer = "SizeandClearTests";
-                testProduct.ProductPrice =Convert.ToUInt32( 10 + i);
-                Product[] actualTodoItem = ProductItems.AddToProductsCollection(testProduct);                
+                Product_Drink testProduct = new Product_Drink(ProductIdSequencer.NextProductId(), "testProductCollection", $"SCTest+{i}", 25, "fruits", 10);
+                Product[] test = ProductItems.AddToProductsCollection(testProduct);
             }
             
             Assert.Equal(5, _ob.Size());
 
-            _ob.clear();
+            ProductItems.Clear();
             Assert.Empty(ProductItems.ProductsCollection);
         }
 
@@ -41,16 +43,51 @@ namespace Vending_Machine.Tests
 
             for (int i = 0; i < 5; i++)
             {
-                Product testProduct = null;
-                testProduct.ProductName = "Test" + i;
-                testProduct.ProductManufacturer = "SizeandClearTests";
-                testProduct.ProductPrice = Convert.ToUInt32(10 + i);
-                Product[] actualTodoItem = ProductItems.AddToProductsCollection(testProduct);
+                
+                switch(i)
+                {
+                    case 0: 
+                        {
+                            Product_Drink testProduct = new Product_Drink(ProductIdSequencer.NextProductId(), "DrinkProductCollection", $"AddTest+{i}", 25, "fruits", 10);
+                            Product[] test = ProductItems.AddToProductsCollection(testProduct); expectedTodoItem[i] = testProduct;
+                            break;
+                        }
+                    case 1: 
+                        {
+                            Product_Snack testProduct = new Product_Snack(ProductIdSequencer.NextProductId(), "SnacktestProductCollection", $"addTest+{i}", 20, "Chocolate", 10);
+                            Product[] test = ProductItems.AddToProductsCollection(testProduct); expectedTodoItem[i] = testProduct;
+                            break;
+                        }
+                    case 2:
+                        {
+                            Product_Game testProduct = new Product_Game(ProductIdSequencer.NextProductId(), "GAmetestProductCollection", $"Test+{i}", 15, "Hangman", 10);
+                            Product[] test = ProductItems.AddToProductsCollection(testProduct); expectedTodoItem[i] = testProduct; break;
+                        }
+                    case 3:
+                        {
+                            Product_Card testProduct = new Product_Card(ProductIdSequencer.NextProductId(), "CardtestProductCollection", $"Test+{i}", 10, "Vendo", 15);
+                            Product[] test = ProductItems.AddToProductsCollection(testProduct); expectedTodoItem[i] = testProduct; break;
+                        }
+                    case 4:
+                        {
+                            Product_Ticket testProduct = new Product_Ticket(ProductIdSequencer.NextProductId(), "TickettestProductCollection", $"Test+{i}", 34, "VästTrafik", 10);
+                            Product[] test = ProductItems.AddToProductsCollection(testProduct); expectedTodoItem[i] = testProduct; break;
+                        }
+                    default:
+                        {
+                            Product_Ticket testProduct = new Product_Ticket(ProductIdSequencer.NextProductId(), "TickettestProductCollection", $"Test+{i}", 34, "VästTrafik", 10);
+                            Product[] test = ProductItems.AddToProductsCollection(testProduct); expectedTodoItem[i] = testProduct; break;
+                        }
 
-                expectedTodoItem[i] = testProduct;
+                }
+                     
+
+                
             }
             Assert.Equal(expectedTodoItem, ProductItems.ProductsCollection);
-           
+            ProductItems.Clear();
+            Assert.Empty(ProductItems.ProductsCollection);
+
         }
 
         [Fact]
@@ -62,11 +99,8 @@ namespace Vending_Machine.Tests
 
             for (int i = 0; i < 5; i++)
             {
-                Product testProduct = null;
-                testProduct.ProductName = "Test" + i;
-                testProduct.ProductManufacturer = "FindTests";
-                testProduct.ProductPrice = Convert.ToUInt32(10 + i);
-                Product[] actualTodoItem = ProductItems.AddToProductsCollection(testProduct);
+                Product_Drink testProduct = new Product_Drink(ProductIdSequencer.NextProductId(), "testProductCollection", $"findTest+{i}", 25, "fruits", 10);
+                Product[] test = ProductItems.AddToProductsCollection(testProduct);
 
                 expectedTodoItem[i] = testProduct;
             }
@@ -77,7 +111,7 @@ namespace Vending_Machine.Tests
             Assert.Equal(ProductItems.ProductsCollection[1], _ob.FindById(2));
 
 
-            _ob.clear();
+            ProductItems.Clear();
             Assert.Empty(ProductItems.ProductsCollection);
         }
 
@@ -86,7 +120,7 @@ namespace Vending_Machine.Tests
         public void RemoveFromProductsCollectionTests()
         {
             
-            _ob.clear();
+            ProductItems.Clear();
             Random rand = new Random();
             int removeIndex =rand.Next(0,3);
             Product[] removeItem = new Product[1];
@@ -94,11 +128,9 @@ namespace Vending_Machine.Tests
 
             for (int i = 0; i < 3; i++)
             {
-                Product testProduct = null;
-                testProduct.ProductName = "Test" + i;
-                testProduct.ProductManufacturer = "RemoveTests";
-                testProduct.ProductPrice = Convert.ToUInt32(10 + i);
-                Product[] actualTodoItem = ProductItems.AddToProductsCollection(testProduct);
+                Product_Drink testProduct = new Product_Drink(ProductIdSequencer.NextProductId(), "testProductCollection", $"removeTest+{i}", 25, "fruits", 10);
+                Product[] test = ProductItems.AddToProductsCollection(testProduct);
+
                 if (removeIndex == i)
                 { removeItem[0] = testProduct; }              
             }
@@ -108,6 +140,9 @@ namespace Vending_Machine.Tests
             ProductItems.RemoveFromProductCollection(removeItem[0]);
 
             Assert.Equal(expectedProductItem, ProductItems.ProductsCollection);
+
+            ProductItems.Clear();
+            Assert.Empty(ProductItems.ProductsCollection);
         }
 
        

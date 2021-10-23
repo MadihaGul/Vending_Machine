@@ -9,6 +9,9 @@ namespace Vending_Machine.Data
     {
         // Created and instantiated Product array to keep all products in a single collection
         private static Product[] productsCollection = new Product[0];
+       
+        //private static Product_Drink[] ProductDetailCollection = new Product_Drink[0];
+
         public static Product[] ProductsCollection { get { return productsCollection; } }
         // Returns size of array 
         public int Size()
@@ -26,9 +29,9 @@ namespace Vending_Machine.Data
             Array.Resize(ref productsCollection, productsCollection.Length + 1);
             productsCollection[productsCollection.Length - 1] = product;
             return productsCollection;
-            
+
         }
-       
+
 
         // Returns array to access all data within private arrTodo outside class
         public static Product[] FindAll()
@@ -113,9 +116,9 @@ namespace Vending_Machine.Data
         //    }
         //}
 
-        public void clear()
+        public static void Clear()
         {
-            productsCollection = Array.Empty<Product>();
+            productsCollection = new Product[0];
         }
 
     }

@@ -19,7 +19,7 @@ namespace Vending_Machine.Models
             { return productPrice; }
             set
             {
-                if (productPrice<=0)
+                if (value <= 0)
                 {
                     throw new ArgumentException("Product price must not be zero.");
                 }
@@ -62,9 +62,26 @@ namespace Vending_Machine.Models
 
         // Common method to examine product details
 
-        public void ExamineProduct(Product product)
+        public virtual Product NewProduct(string productManufacturer, string productName, uint productPrice, string productContainsInfo, uint availableQuantity)
         {
-            Console.WriteLine($"{product.ProductManufacturer}\t{product.ProductName}\n Information:\t{product.ProductInfo}\nPrice:\t{product.ProductPrice}");
+            Product newProduct = null;
+            return newProduct;
+        }
+        public static string ExamineProduct(Product product)
+        { 
+            string message="";
+            if (product is Product_Drink)
+                message = $"{product.ProductManufacturer}\t{product.ProductName}\nInformation:\t{(product as Product_Drink).ProductInfo}\nPrice:\t{(product as Product_Drink).ProductPrice} Kr"; 
+            else if (product is Product_Snack)
+                message = $"{product.ProductManufacturer}\t{product.ProductName}\nInformation:\t{(product as Product_Snack).ProductInfo}\nPrice:\t{(product as Product_Snack).ProductPrice} Kr";
+            else if (product is Product_Ticket)        
+                message = $"{product.ProductManufacturer}\t{product.ProductName}\nInformation:\t{(product as Product_Ticket).ProductInfo}\nPrice:\t{(product as Product_Ticket).ProductPrice} Kr";
+            else if (product is Product_Card)
+                message = $"{product.ProductManufacturer}\t{product.ProductName}\nInformation:\t{(product as Product_Card).ProductInfo}\nPrice:\t{(product as Product_Card).ProductPrice} Kr";
+            else if (product is Product_Game)
+                message = $"{product.ProductManufacturer}\t{product.ProductName}\nInformation:\t{(product as Product_Game).ProductInfo}\nPrice:\t{(product as Product_Game).ProductPrice} Kr";
+
+            return message;
         }
         // Common method to use product 
         public string UseProduct()
@@ -72,21 +89,8 @@ namespace Vending_Machine.Models
             return $"\nEnjoy {ProductName}!";
 
         }
-        public string EndTransaction()//UI
-        {
-            
-            string message = UseProduct();
-            IVending.stopService = true;
-            return message;
-        }
+      
         // Creates a new Product object and adds in product items
-        public virtual Product NewProduct(string productManufacturer, string productName, uint productPrice, string productContainsInfo, uint availableQuantity)
-        {
-            //To create new child object of Product by overriding
-            Product newProduct = null;
-            ProductItems.AddToProductsCollection(newProduct);
-            return newProduct;
-        }
 
         // Constructor
         public Product(int productId,string productManufacturer, string productName, uint productPrice) 

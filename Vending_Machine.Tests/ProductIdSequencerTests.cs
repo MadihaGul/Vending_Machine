@@ -26,12 +26,12 @@ namespace Vending_Machine.Tests
 
         // tests Reset method
         [Theory]
-        [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
         public void ResetTests(int todoId)
         {
+            ProductIdSequencer.Reset();
             int expectedProductId = todoId + 1;
             int actualProductId = ProductIdSequencer.NextProductId();
 
@@ -39,6 +39,7 @@ namespace Vending_Machine.Tests
 
             Assert.Equal(0, ProductIdSequencer.ProductId);
         }
+        
 
     }
 }

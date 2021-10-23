@@ -4,22 +4,25 @@ using System.Text;
 using Vending_Machine.Data;
 namespace Vending_Machine.Models
 {
-    interface IVending
+    public interface IVending
     {
         protected static bool stopService = false;
-        public void StartService()
+        public static void StartService()
         {
             //Write code to Load products in ProductCollection
             while (!stopService)
              Welcome();
         }
-        public string EndTransaction()
+        public static string EndTransaction()
         {
+            Payment ob = new Payment();
+            
+            string message = ob.PayBalance(out uint[] balanceInDenominatio);
             stopService = true;
-            return "";
+            return message;
         }
 
-        public void Welcome()
+        public static void Welcome()
         {
             try
             {
@@ -35,31 +38,55 @@ namespace Vending_Machine.Models
 
 
 
-        Product[] SearchProducts(string searchProduct)
+        public static Product[] SearchProducts(string searchProduct)
         {
             return ProductItems.FindByName(searchProduct);
 
         }
   
-
-        Product[] ShowAll()
+        public static Product[] ShowAll()
         {
             return ProductItems.FindAll();
         }
 
-        void InsertMoney(double addMoney)
+        public static string InsertMoney(uint amount)
         {
+            Payment ob = new Payment();
+            return ob.AddToMoneyPool(amount);
 
         }
-        void Purchase(Product PurchaseProduct)
+        public static string Purchase(Product purchaseProduct, out bool charged)
         {
+            
+            string message = $"\nSorry! Not enough money to buy. Insert money";
+            Payment ob = new Payment();
+            charged = ob.ChargePrice(purchaseProduct.ProductPrice);
+                        
+            if (charged)
+            {
+                
 
+                if (purchaseProduct is Product_Drink)
+                    message = $"\nPayment successfull"+ (purchaseProduct as Product_Drink).UseProduct();
+                else if (purchaseProduct is Product_Snack)
+                    message = $"\nPayment successfull" + (purchaseProduct as Product_Snack).UseProduct();
+                else if (purchaseProduct is Product_Ticket)
+                    message = $"\nPayment successfull" + (purchaseProduct as Product_Ticket).UseProduct();
+                else if (purchaseProduct is Product_Card)
+                    message = $"\nPayment successfull" + (purchaseProduct as Product_Card).UseProduct();
+                else if (purchaseProduct is Product_Game)
+                    message = $"\nPayment successfull" + (purchaseProduct as Product_Game).UseProduct();
+
+            }
+           
+            
+            return message;
         }
 
 
-        void ContinueBuying()
+        public static void ContinueBuying()
         {
-
+            Welcome();
         }
 
     }
