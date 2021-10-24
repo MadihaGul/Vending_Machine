@@ -5,7 +5,7 @@ using Vending_Machine.Data;
 
 namespace Vending_Machine.Models
 {
-    public abstract class Product: IVending
+    public abstract class Product
     {
         // Created common fields and properties
         private readonly int productId;
