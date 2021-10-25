@@ -19,8 +19,9 @@ namespace Vending_Machine.Tests
 
         public void SizeandClearTests()
         {
-            
             ProductItems.Clear();
+            Assert.Empty(ProductItems.ProductsCollection);
+         
             Assert.Equal(0, _ob.Size());
 
             for (int i = 0; i < 5; i++)
@@ -94,7 +95,8 @@ namespace Vending_Machine.Tests
 
         public void FindTests()
         {
-           
+            ProductItems.Clear();
+            Assert.Empty(ProductItems.ProductsCollection);
             Product[] expectedTodoItem = new Product[5];
 
             for (int i = 0; i < 5; i++)

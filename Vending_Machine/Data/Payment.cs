@@ -62,9 +62,7 @@ namespace Vending_Machine.Data
                     if (balance == 0) break;
                     else
                     {
-                        if (balance<moneyDominations[i])
-                        { }
-                        else 
+                        if (balance>=moneyDominations[i])                        
                         {
 
                             BalanceInDenomination.Add(moneyDominations[i]);

@@ -4,7 +4,7 @@ using System.Text;
 using Vending_Machine.Data;
 namespace Vending_Machine.Models
 {
-    class VendingMachine : IVending
+    public class VendingMachine : IVending
     {
 
         protected static bool stopService = false;
